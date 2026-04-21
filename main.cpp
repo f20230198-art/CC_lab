@@ -1,5 +1,6 @@
 #include "semantic.h"
 #include "ll_slr.h"
+#include "tac.h"
 #include <fstream>
 #include <sstream>
 
@@ -121,6 +122,12 @@ int main(int argc, char* argv[]) {
         for (auto& e : sem.getErrors()) cout << "  " << e << "\n";
     }
 
+    // Phase 6: generate intermediate code from AST using quadruple representation
+    banner("Phase 6: Intermediate Code Generation (TAC)");
+    TACGenerator tac;
+    tac.generate(tree);
+    tac.print();
+
     banner("Compilation Pipeline Summary");
     cout << left;
     cout << setw(40) << "Phase 1  Lexical Analysis"  << (lexOk            ? "PASS"   : "FAIL")   << "\n";
@@ -129,6 +136,7 @@ int main(int argc, char* argv[]) {
     cout << setw(40) << "Phase 3  SLR Parser"        << (slrRes.ok        ? "ACCEPT" : "REJECT") << "\n";
     cout << setw(40) << "Phase 4  Symbol Table"      << "PASS"                                    << "\n";
     cout << setw(40) << "Phase 5  Semantic Analysis" << (!sem.hasErrors() ? "PASS"   : "FAIL")   << "\n";
+    cout << setw(40) << "Phase 6  TAC (Quadruples)"  << "PASS"                                    << "\n";
 
     delete tree;
     return 0;

@@ -69,12 +69,18 @@ class SemanticAnalyzer {
 
         // declaration: insert into symbol table, flag duplicate
         if (n->label == "decl_stmt") {
-            // kids[0]=type  kids[1]=ID  kids[2]=SEMI
+            // kids[0]=type  kids[1]=ID  (optional: kids[2]=ASSIGN kids[3]=expr)  last=SEMI
             string typeName = n->kids[0]->value;
             string varName  = n->kids[1]->value;
             if (!symTab.insert(varName, typeName))
                 err("Multiple declaration of '" + varName +
                     "' in scope " + to_string(symTab.scopeLevel()));
+            // if there's an initializer, type-check the RHS expression
+            if (n->kids.size() >= 4 && n->kids[2]->label == "ASSIGN") {
+                string t = typeOf(n->kids[3]);
+                if (!t.empty() && t != "bool" && typeName == "int" && t == "float")
+                    err("Type mismatch: cannot assign float to int variable '" + varName + "'");
+            }
             symTab.printTable(); // show table state after every declaration
             return;
         }

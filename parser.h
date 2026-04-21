@@ -79,6 +79,10 @@ class Parser {
         Token t = eat();
         n->add(new Node("type", t.text));
         n->add(expect(TokenType::ID,   "identifier"));
+        if (check(TokenType::ASSIGN)) {
+            n->add(new Node("ASSIGN", eat().text));
+            n->add(parseExpr());
+        }
         n->add(expect(TokenType::SEMI, ";"));
         return n;
     }

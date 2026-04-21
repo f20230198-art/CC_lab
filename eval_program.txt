@@ -6,18 +6,18 @@ a = 2 * (3 + 4);
 b = 15;
 sum = 0;
 while (a < b && b != 0) {
-    int temp;
-    temp = a * 2;
-    if ((temp % 3 == 0) || (a > 5)) {
-        sum = sum + temp;
-    } else {
-        sum = sum - 1;
-    }
-    a = a + 1;
+ int temp;
+ temp = a * 2;
+ if ((temp % 3 == 0) || (a > 5)) {
+ sum = sum + temp;
+ } else {
+ sum = sum - 1;
+ }
+ a = a + 1;
 }
 avg = sum / (b - a);
 if (!(avg < 5.0)) {
-    print(sum);
+ print(sum);
 } else {
-    print(avg);
+ print(avg);
 }
