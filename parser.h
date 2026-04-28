@@ -1,10 +1,8 @@
 #pragma once
 #include "lexer.h"
 
-// ============================================================
 //  PARSER  —  Phase 2: Recursive-Descent Parser
 //  Builds a parse tree (AST) from the token stream.
-// ============================================================
 
 struct Node {
     string        label;

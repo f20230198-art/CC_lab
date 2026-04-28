@@ -2,10 +2,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// ============================================================
 //  LEXER  —  Phase 1: Lexical Analysis
 //  Reads source code and produces a stream of tokens.
-// ============================================================
 
 enum class TokenType {
     INT, FLOAT, IF, ELSE, WHILE, RETURN, PRINT,

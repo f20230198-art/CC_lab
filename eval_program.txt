@@ -10,7 +10,7 @@ while (a < b && b != 0) {
  temp = a * 2;
  if ((temp % 3 == 0) || (a > 5)) {
  sum = sum + temp;
- } else {
+ } else {   
  sum = sum - 1;
  }
  a = a + 1;

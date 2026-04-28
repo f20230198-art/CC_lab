@@ -1,6 +1,7 @@
 #include "semantic.h"
 #include "ll_slr.h"
 #include "tac.h"
+#include "codegen.h"
 #include <fstream>
 #include <sstream>
 
@@ -128,6 +129,30 @@ int main(int argc, char* argv[]) {
     tac.generate(tree);
     tac.print();
 
+    // Phase 7: optimize the TAC, then translate to pseudo-assembly target code
+    banner("Phase 7: Optimization & Target Code Generation");
+
+    section("Unoptimized TAC (Quadruples)");
+    printQuads(tac.getQuads());
+
+    Optimizer opt;
+    opt.load(tac.getQuads());
+    opt.run();
+
+    section("Optimized TAC (after constant folding, propagation, algebraic simp., DCE)");
+    printQuads(opt.getQuads());
+
+    cout << "\nOptimizations applied:\n"
+         << "  1. Constant Folding         — fold constant arithmetic at compile time\n"
+         << "  2. Constant Propagation     — replace uses of vars proven constant\n"
+         << "  3. Algebraic Simplification — x+0, x-0, x*1, x*0 reductions\n"
+         << "  4. Dead Code Elimination    — drop unused temporary assignments\n";
+
+    section("Target Code (pseudo-assembly)");
+    TargetCodeGen tgt;
+    tgt.generate(opt.getQuads());
+    tgt.print();
+
     banner("Compilation Pipeline Summary");
     cout << left;
     cout << setw(40) << "Phase 1  Lexical Analysis"  << (lexOk            ? "PASS"   : "FAIL")   << "\n";
@@ -137,6 +162,7 @@ int main(int argc, char* argv[]) {
     cout << setw(40) << "Phase 4  Symbol Table"      << "PASS"                                    << "\n";
     cout << setw(40) << "Phase 5  Semantic Analysis" << (!sem.hasErrors() ? "PASS"   : "FAIL")   << "\n";
     cout << setw(40) << "Phase 6  TAC (Quadruples)"  << "PASS"                                    << "\n";
+    cout << setw(40) << "Phase 7  Optimization + Target Code" << "PASS"                            << "\n";
 
     delete tree;
     return 0;

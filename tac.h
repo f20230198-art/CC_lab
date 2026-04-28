@@ -2,10 +2,7 @@
 #include "parser.h"
 #include <iomanip>
 
-// ============================================================
-//  TAC (Three-Address Code) — Phase 6: Intermediate Code Gen
-//  Representation used: Quadruples (op, arg1, arg2, result)
-// ============================================================
+//  TAC (Three-Address Code) — Intermediate Code Genration
 
 struct Quad {
     string op;

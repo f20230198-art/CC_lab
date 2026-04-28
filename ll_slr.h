@@ -1,13 +1,10 @@
 #pragma once
 #include "lexer.h"
 
-// ============================================================
 //  LL(1) + SLR PARSERS  —  Phase 3: Table-Driven Parsing
 //  Includes: Grammar, FIRST/FOLLOW, LL(1) table, SLR table,
 //            LR(0) automaton, parse traces.
-// ============================================================
 
-// ---- shared grammar types ----
 
 struct Production {
     string         lhs;
